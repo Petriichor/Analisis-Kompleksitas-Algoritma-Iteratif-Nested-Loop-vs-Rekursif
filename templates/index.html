@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tubes AKA - Perbandingan Bubble Sort</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Analisis Efisiensi: Iteratif vs Rekursif</h2>
+        <div class="card p-4 shadow-sm mb-4">
+            <form action="/analyze" method="post" class="row g-3 justify-content-center">
+                <div class="col-auto"><label class="col-form-label">Nilai n:</label></div>
+                <div class="col-md-3"><input type="number" name="n_target" class="form-control" value="100"></div>
+                <div class="col-auto"><button type="submit" class="btn btn-primary">Analisis</button></div>
+            </form>
+        </div>
+
+        {% if single_result %}
+        <div class="alert alert-info text-center">
+            <h5>Hasil untuk n = {{ single_result.n }}</h5>
+            <p>Iteratif: <strong>{{ "%.6f"|format(single_result.t_iter) }}s</strong> | 
+               Rekursif: <strong>{{ "%.6f"|format(single_result.t_recur) if single_result.t_recur else "Limit" }}s</strong></p>
+        </div>
+        <div class="text-center bg-white p-3 rounded shadow-sm">
+            <img src="data:image/png;base64,{{ plot_comp }}" class="img-fluid">
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
