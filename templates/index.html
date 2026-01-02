@@ -1,30 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>Tubes AKA - Perbandingan Bubble Sort</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Kompleksitas: Nested vs Rekursif</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f9fa; }
+        .main-container { max-width: 900px; margin: 0 auto; padding-top: 40px; padding-bottom: 60px; }
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); background: white; margin-bottom: 25px; padding: 25px; }
+        .metric-box { text-align: center; padding: 15px; border-radius: 8px; background-color: #f1f3f5; }
+        .metric-title { font-size: 0.9rem; color: #6c757d; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .metric-value { font-size: 1.4rem; font-weight: 700; color: #212529; }
+        .val-iter { color: #0d6efd; } /* Biru */
+        .val-recur { color: #dc3545; } /* Merah */
+        .val-diff { color: #198754; } /* Hijau */
+        .plot-container { text-align: center; margin-top: 30px; }
+        .plot-img { width: 100%; height: auto; border: 1px solid #e9ecef; border-radius: 8px; padding: 5px; background: #fff; }
+        h2 { font-weight: 700; color: #343a40; margin-bottom: 30px; }
+        h4 { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; color: #495057; }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container py-5">
-        <h2 class="text-center mb-4">Analisis Efisiensi: Iteratif vs Rekursif</h2>
-        <div class="card p-4 shadow-sm mb-4">
-            <form action="/analyze" method="post" class="row g-3 justify-content-center">
-                <div class="col-auto"><label class="col-form-label">Nilai n:</label></div>
-                <div class="col-md-3"><input type="number" name="n_target" class="form-control" value="100"></div>
-                <div class="col-auto"><button type="submit" class="btn btn-primary">Analisis</button></div>
-            </form>
+<body>
+
+<div class="container main-container">
+    <h2 class="text-center">Analisis Efisiensi Algoritma<br><small class="text-muted fs-5">Iteratif (Nested Loop) vs Rekursif (Linear)</small></h2>
+
+    <div class="card-custom">
+        <form action="/analyze" method="post" class="row g-3 align-items-center justify-content-center">
+            <div class="col-auto">
+                <label for="n_target" class="col-form-label fw-bold">Masukkan Nilai N:</label>
+            </div>
+            <div class="col-md-4">
+                <input type="number" id="n_target" name="n_target" class="form-control form-control-lg" value="1000" min="1" required placeholder="Contoh: 1000">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary btn-lg px-4">Analisis</button>
+            </div>
+        </form>
+        <div class="text-center mt-2 text-muted small">
+            <em>Catatan: Karena iteratif menggunakan Nested Loop O(n²), input > 5000 mungkin memakan waktu.</em>
+        </div>
+    </div>
+
+    {% if single_result %}
+    <div class="card-custom">
+        <h4 class="text-center border-bottom pb-3">Hasil Eksekusi untuk N = {{ single_result.n }}</h4>
+        
+        <div class="text-center mb-4">
+            <span class="badge bg-secondary mb-2">Total Sum</span>
+            <div class="fs-4 fw-bold">{{ single_result.result }}</div>
         </div>
 
-        {% if single_result %}
-        <div class="alert alert-info text-center">
-            <h5>Hasil untuk n = {{ single_result.n }}</h5>
-            <p>Iteratif: <strong>{{ "%.6f"|format(single_result.t_iter) }}s</strong> | 
-               Rekursif: <strong>{{ "%.6f"|format(single_result.t_recur) if single_result.t_recur else "Limit" }}s</strong></p>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="metric-box">
+                    <div class="metric-title">Waktu Iteratif <br>(Nested Loop)</div>
+                    <div class="metric-value val-iter">{{ "%.6f"|format(single_result.t_iter) }} s</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-box">
+                    <div class="metric-title">Waktu Rekursif <br>(Linear)</div>
+                    <div class="metric-value val-recur">
+                        {{ "%.6f"|format(single_result.t_recur) if single_result.t_recur else "Limit/Error" }} s
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="metric-box">
+                    <div class="metric-title">Selisih Waktu <br>(Delta)</div>
+                    <div class="metric-value val-diff">
+                        {{ "%.6f"|format(single_result.diff) if single_result.diff else "-" }} s
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="text-center bg-white p-3 rounded shadow-sm">
-            <img src="data:image/png;base64,{{ plot_comp }}" class="img-fluid">
-        </div>
-        {% endif %}
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card-custom">
+                <h4>1. Grafik Perbandingan (Iteratif vs Rekursif)</h4>
+                <p class="text-muted small">Perhatikan garis Biru (Parabola) vs Merah (Lurus).</p>
+                <img src="data:image/png;base64,{{ plot_comp }}" class="plot-img" alt="Grafik Perbandingan">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom h-100">
+                <h4>2. Iteratif (Nested Loop)</h4>
+                <p class="text-muted small">Kompleksitas Kuadratik O(n²)</p>
+                <img src="data:image/png;base64,{{ plot_iter }}" class="plot-img" alt="Grafik Iteratif">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card-custom h-100">
+                <h4>3. Rekursif (Linear)</h4>
+                <p class="text-muted small">Kompleksitas Linear O(n)</p>
+                <img src="data:image/png;base64,{{ plot_recur }}" class="plot-img" alt="Grafik Rekursif">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+<footer class="text-center py-4 text-muted small">
+    &copy; 2025 Analisis Algoritma - Kelompok Dallas
+</footer>
+
 </body>
 </html>
