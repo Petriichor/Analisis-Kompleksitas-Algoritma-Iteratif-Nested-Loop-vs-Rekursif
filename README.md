@@ -36,3 +36,12 @@ Hasil pengujian menunjukkan perbedaan performa yang sangat signifikan, terutama 
 1. **Clone Repository**:
    ```bash
    git clone [https://github.com/Petriichor/Analisis-Kompleksitas-Algoritma-Iteratif-Nested-Loop-vs-Rekursif.git](https://github.com/Petriichor/Analisis-Kompleksitas-Algoritma-Iteratif-Nested-Loop-vs-Rekursif.git)
+
+2. **Install Dependensi**:
+   ```bash
+   pip install -r requirements.txt
+4. **Jalankan Aplikasi**:
+   ```bash
+   python app.py
+6. **Akses Dashboard**:
+   Buka http://127.0.0.1:5000 pada browser Anda.
