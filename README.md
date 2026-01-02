@@ -7,7 +7,7 @@ Project ini merupakan **Tugas Besar mata kuliah Analisis Kompleksitas Algoritma 
 
 ## 🚀 Fitur Utama
 - **Uji Coba Spesifik**: Menghitung waktu eksekusi untuk nilai masukan $n$ tertentu (bebas input).
-- **Visualisasi Grafik**: Menampilkan perbandingan kurva pertumbuhan waktu: Parabola ($O(n^2)$) vs Linear ($O(n)$).
+- **Visualisasi Grafik**: Menampilkan perbandingan kurva pertumbuhan waktu: Parabola (O(n^2)) vs Linear (O(n)).
 - **Analisis Selisih**: Menghitung $\Delta t$ untuk melihat seberapa jauh efisiensi algoritma linear dibandingkan kuadratik.
 
 ## 📝 Analisis Kompleksitas (Asymptotic Notation)
@@ -15,9 +15,9 @@ Berdasarkan eksperimen dan tinjauan teoretis, berikut adalah analisis dari kedua
 
 ### 1. Pendekatan Iteratif (Nested Loop)
 Algoritma ini diimplementasikan dengan logika penjumlahan bertahap (*counting by one*) di dalam loop.
-* **Logika**: Untuk setiap suku ke-$i$, program melakukan perulangan sebanyak $i$ kali untuk menambahkan nilai 1.
-* **Kompleksitas Waktu**: Menggunakan dua lapis perulangan bersarang (*nested loop*), sehingga memiliki kompleksitas **Kuadratik $O(n^2)$**.
-* **Kompleksitas Ruang**: Bersifat iteratif sederhana dengan kebutuhan memori konstan sebesar $O(1)$.
+* **Logika**: Untuk setiap suku ke-i, program melakukan perulangan sebanyak i kali untuk menambahkan nilai 1.
+* **Kompleksitas Waktu**: Menggunakan dua lapis perulangan bersarang (*nested loop*), sehingga memiliki kompleksitas **Kuadratik O(n^2)**.
+* **Kompleksitas Ruang**: Bersifat iteratif sederhana dengan kebutuhan memori konstan sebesar O(1).
 
 ### 2. Pendekatan Rekursif (Linear)
 Algoritma ini menggunakan pemanggilan fungsi diri sendiri secara langsung.
